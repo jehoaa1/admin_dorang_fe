@@ -1,3 +1,4 @@
+import RegisterForm from "@/components/page/login/register-form";
 import DefaultModal from "@/components/shared/ui/default-modal";
 import { Alert, Button, Form, Input } from "antd";
 import { useForm } from "antd/lib/form/Form";
@@ -15,6 +16,7 @@ const LoginForm = () => {
   const [form] = useForm<ILoginFormValue>();
   const [isLoading, setIsLoading] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [registerMadal, setRegisterMadal] = useState(false);
 
   const handleFinish = useCallback(async (value: ILoginFormValue) => {
     setIsLoading(true);
@@ -86,10 +88,15 @@ const LoginForm = () => {
           로그인
         </Button>
 
+        <Button size="large" type="primary" className="w-full mt-2" danger onClick={()=>setRegisterMadal(true)}>
+          회원가입
+        </Button>
+
         <a className="inline-block mt-2 text-gray-400" onClick={() => setShowPasswordModal(true)}>
           비밀번호 찾기
         </a>
       </Form>
+      <RegisterForm open={registerMadal} setOpen={setRegisterMadal} ></RegisterForm>
 
       <DefaultModal title="비밀번호 찾기" open={showPasswordModal} handleHide={() => setShowPasswordModal(false)}>
         🔑 임시 로그인 정보는 admin / admin 입니다.

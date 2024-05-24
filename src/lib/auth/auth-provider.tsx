@@ -25,7 +25,7 @@ export function useAuth() {
   return result;
 }
 
-const publicPageList = ["/login"];
+const publicPageList = ["/login", "/register"];
 
 const isPublicPage = (pathname: string) => {
   return publicPageList.includes(pathname);
