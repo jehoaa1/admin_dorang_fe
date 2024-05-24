@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![Purple Admin UI](./public/og.png)
 
 <h1 align="center">
@@ -240,3 +241,7 @@ API와 관련된 코드와 Type을 관리합니다.
 ## Author
 
 - subicura ([@subicura](https://twitter.com/subicura))
+=======
+# admin_dorang
+도랑도랑 미술학원 관리페이지
+>>>>>>> 5e34cbad4810e1e3328668d0003a7979f5eb0bce
