@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { createContext, PropsWithChildren, useContext, useEffect } from "react";
 
-interface IAuthProviderProps {}
+interface IAuthProviderProps { }
 
 interface IAuthContext {
   initialized: boolean;
