@@ -21,8 +21,6 @@ const LoginForm = () => {
   const handleFinish = useCallback(async (value: ILoginFormValue) => {
     setIsLoading(true);
 
-    console.log('??')
-
     try {
       console.log(value);
       await signIn("login-credentials", { username: value.username, password: value.password });

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal, message } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
@@ -17,7 +17,7 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
   const { open, setOpen } = props
 
   const handleFinish = useCallback(async (value: IRegisterFormValue) => {
-    //setIsLoading(true);
+    setIsLoading(true);
 
     try {
 
@@ -32,9 +32,16 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
 
         const responseData = await response.json(); // 응답 본문을 JSON으로 파싱
         console.log('Response Data:', responseData);
-
+        if(responseData.result == "fail"){
+          message.error(responseData.result_msg);
+          return
+        }
+        message.success('회원가입 성공'); 
+        //Todo 여기에 토큰 생성하고 메인으로 가는 로직 추가해야함
       } catch (error) {
         console.error('Error fetching data:', error);
+      }finally{        
+        setIsLoading(false);
       }
 
       // For demonstration, assuming registration is successful and redirecting to login.
