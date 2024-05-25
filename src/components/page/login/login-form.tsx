@@ -1,14 +1,15 @@
 import RegisterForm from "@/components/page/login/register-form";
 import DefaultModal from "@/components/shared/ui/default-modal";
-import { Alert, Button, Form, Input } from "antd";
+import { Alert, Button, Form, Input, message } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import cookie from 'js-cookie';
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 
 interface ILoginFormValue {
-  username: string;
-  password: string;
+  email: string;
+  pw: string;
 }
 
 const LoginForm = () => {
@@ -21,12 +22,30 @@ const LoginForm = () => {
   const handleFinish = useCallback(async (value: ILoginFormValue) => {
     setIsLoading(true);
 
-    try {
-      console.log(value);
-      await signIn("login-credentials", { username: value.username, password: value.password });
-    } catch (error) {
+    // try {
+    //   console.log(value);
+    //   await signIn("login-credentials", { username: value.username, password: value.password });
+    // } catch (error) {
+    //   setIsLoading(false);
+    // }
+  const response = 
+    await fetch(`http://localhost:8000/auth/login/email`,{
+      method : "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(value),
+    });
+
+    const responseData = await response.json(); // 응답 본문을 JSON으로 파싱
+
+    if(responseData.result == "fail"){
+      message.error('로그인 실패');
       setIsLoading(false);
+      return
     }
+    
+    cookie.set('token', responseData.response.Authorization, { expires: 7 });  // 7일 후 만료
   }, []);
 
   return (
@@ -62,7 +81,7 @@ const LoginForm = () => {
       <Form<ILoginFormValue>
         form={form}
         layout="vertical"
-        initialValues={{ username: "admin", password: "admin" }}
+        initialValues={{ email: "admin", pw: "admin" }}
         onFinish={handleFinish}
       >
         <div className="mb-3">
@@ -74,11 +93,11 @@ const LoginForm = () => {
             <></>
           )}
         </div>
-        <Form.Item name="username" rules={[{ required: true, message: "아이디를 입력해주세요" }]}>
+        <Form.Item name="email" rules={[{ required: true, message: "아이디를 입력해주세요" }]}>
           <Input size="large" placeholder="아이디" />
         </Form.Item>
 
-        <Form.Item name="password" rules={[{ required: true, message: "비밀번호를 입력해주세요" }]}>
+        <Form.Item name="pw" rules={[{ required: true, message: "비밀번호를 입력해주세요" }]}>
           <Input placeholder="비밀번호" type="password" size="large" />
         </Form.Item>
 

@@ -2,13 +2,17 @@
 /**
  * name, email, image 외에 추가 속성을 정의
  */
-import { DefaultSession } from "next-auth";
+import "next-auth";
 
 declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      login: string;
-    } & DefaultSession["user"];
+      email: string;
+      name?: string | null;
+      phoneNumber?: string | null;
+      profileImg?: string | null;
+    }; 
+    expires: Date; // expires 속성을 Date 타입으로 변경
   }
 }

@@ -1,18 +1,28 @@
-/**
- * 백오피스 특성상 기본적으로 인증 필요
- * 인증된 사용자 정보를 얻거나 로그인 페이지로 이동
- */
 import Spinner from "@/components/shared/spinner";
+import cookie from "js-cookie";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { createContext, PropsWithChildren, useContext, useEffect } from "react";
+import React, { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 
-interface IAuthProviderProps { }
+interface IAuthProviderProps {}
 
 interface IAuthContext {
   initialized: boolean;
   session: Session;
+}
+interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  phoneNumber?: string | null; // Optional property
+  profileImg?: string | null; // Optional property
+}
+
+
+interface SessionData {
+  user: UserData;
+  expires: Date;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);
@@ -34,21 +44,74 @@ const isPublicPage = (pathname: string) => {
 const AuthProvider = ({ children }: PropsWithChildren<IAuthProviderProps>) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const loading = status === "loading";
+  const [loading, setLoading] = useState(status === "loading");
+  const [initializedSession, setInitializedSession] = useState<Session | null>(session);
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
+    if (!loading) {
+      const token = cookie.get('token');
+      if (token) {
+        // 여기서 서버에 토큰 검증 API를 호출하여 세션 데이터를 받아와 설정
+        const verifyToken = async () => {
+          try {
+            const res = await fetch('http://localhost:8000/auth/verify-token', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${token}`
+              }
+            });
+            const data = await res.json();
 
-    if (session && isPublicPage(router.pathname)) {
-      router.push("/");
-    } else if (!session && !isPublicPage(router.pathname)) {
-      router.push("/login");
+            if (res.status === 200) {
+              
+              const sessionData: SessionData = {
+                user: {
+                  id: data.payload.id,
+                  email: data.payload.email,
+                  name: data.payload.name,
+                  phoneNumber: data.payload.phone_number,
+                  profileImg: data.payload.profile_img,
+                },
+                expires: new Date(data.payload.exp * 1000) // Convert seconds to milliseconds
+              };
+              
+              setInitializedSession(sessionData);
+            } else {
+              router.push('/login');
+            }
+          } catch (error) {
+            console.error('Token verification failed:', error);
+            router.push('/login');
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        verifyToken();
+      } else {
+        router.push('/login');
+        setLoading(false);
+      }
+    } else {
+      setInitializedSession(session);
+      setLoading(false);
     }
   }, [loading, router, session]);
 
-  if (loading || (session && isPublicPage(router.pathname))) {
+  useEffect(() => {
+    if (loading || initializedSession === null) {
+      return;
+    }
+
+    if (initializedSession && isPublicPage(router.pathname)) {
+      router.push("/");
+    } else if (!initializedSession && !isPublicPage(router.pathname)) {
+      router.push("/login");
+    }
+  }, [loading, router, initializedSession]);
+
+  if (loading || (initializedSession && isPublicPage(router.pathname))) {
     return <Spinner />;
   }
 
@@ -56,11 +119,11 @@ const AuthProvider = ({ children }: PropsWithChildren<IAuthProviderProps>) => {
     return <>{children}</>;
   }
 
-  if (!session?.user) {
+  if (!initializedSession?.user) {
     return <Spinner />;
   }
 
-  return <AuthContext.Provider value={{ initialized: true, session }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ initialized: true, session: initializedSession }}>{children}</AuthContext.Provider>;
 };
 
 export default React.memo(AuthProvider);

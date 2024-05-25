@@ -34,9 +34,9 @@ const googleProviderOption: OAuthUserConfig<{}> = {
 
 export default NextAuth({
   pages: {
-    signIn: "/logi2n",
-    verifyRequest: "/logi2n?verify=1",
-    error: "/log2in",
+    signIn: "/login",
+    verifyRequest: "/login?verify=1",
+    error: "/login",
   },
   providers: [
     CredentialsProvider(credentialsProviderOption),
