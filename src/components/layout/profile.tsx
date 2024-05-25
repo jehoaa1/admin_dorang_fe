@@ -1,5 +1,6 @@
 import { useAuth } from "@/lib/auth/auth-provider";
 import { Dropdown, MenuProps } from "antd";
+import cookie from "js-cookie";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -9,6 +10,7 @@ const Profile = () => {
   const { session } = useAuth();
 
   const handleLogoutClick = useCallback(async () => {
+    cookie.remove('token'); //jwt 토큰 제거
     signOut({ callbackUrl: "/login" });
   }, []);
 
@@ -37,7 +39,7 @@ const Profile = () => {
       <div className="ml-2">Administrator</div>
       <Dropdown menu={{ items }} trigger={["click"]}>
         <button className="flex items-center px-2 text-gray-600 rounded hover:bg-gray-200 enable-transition">
-          <span className="sm:max-w-[10rem] ellipsis-text">{session.user.login}</span>
+          <span className="sm:max-w-[10rem] ellipsis-text">{session.user.name}</span>
           <ChevronDown className="w-5 h-5" />
         </button>
       </Dropdown>

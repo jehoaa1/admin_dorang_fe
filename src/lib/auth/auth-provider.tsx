@@ -94,10 +94,9 @@ const AuthProvider = ({ children }: PropsWithChildren<IAuthProviderProps>) => {
         setLoading(false);
       }
     } else {
-      setInitializedSession(session);
       setLoading(false);
     }
-  }, [loading, router, session]);
+  }, [loading, router]);
 
   useEffect(() => {
     if (loading || initializedSession === null) {
