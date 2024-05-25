@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 
 interface IRegisterFormValue {
-  username: string;
+  name: string;
   email: string;
-  password: string;
+  pw: string;
   confirmPassword: string;
 }
 
@@ -17,17 +17,32 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
   const { open, setOpen } = props
 
   const handleFinish = useCallback(async (value: IRegisterFormValue) => {
-    setIsLoading(true);
+    //setIsLoading(true);
 
     try {
-      // Here you should send the registration data to your backend.
-      console.log(value);
+
+      try {
+        const response = await fetch(`http://localhost:8000/auth/register/email`,{
+          method : "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(value),
+        });
+
+        const responseData = await response.json(); // 응답 본문을 JSON으로 파싱
+        console.log('Response Data:', responseData);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
       // For demonstration, assuming registration is successful and redirecting to login.
-      router.push('/login');
+      //router.push('/login');
     } catch (error) {
       setIsLoading(false);
     }
-  }, [router]);
+  }, []);//[router]);
 
   return (
     <>
@@ -41,15 +56,11 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
         layout="vertical"
         onFinish={handleFinish}
       >
-        <Form.Item name="username" rules={[{ required: true, message: "아이디를 입력해주세요" }]}>
-          <Input size="large" placeholder="아이디" />
-        </Form.Item>
-
         <Form.Item name="email" rules={[{ required: true, message: "이메일을 입력해주세요" }]}>
           <Input size="large" placeholder="이메일" type="email" />
         </Form.Item>
 
-        <Form.Item name="password" rules={[{ required: true, message: "비밀번호를 입력해주세요" }]}>
+        <Form.Item name="pw" rules={[{ required: true, message: "비밀번호를 입력해주세요" }]}>
           <Input placeholder="비밀번호" type="password" size="large" />
         </Form.Item>
 
@@ -60,7 +71,7 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
             { required: true, message: "비밀번호 확인을 입력해주세요" },
             ({ getFieldValue }) => ({
               validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
+                if (!value || getFieldValue('pw') === value) {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error('비밀번호가 일치하지 않습니다'));
@@ -69,6 +80,10 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
           ]}
         >
           <Input placeholder="비밀번호 확인" type="password" size="large" />
+        </Form.Item>
+        
+        <Form.Item name="name" rules={[{ required: true, message: "이름 입력해주세요" }]}>
+          <Input size="large" placeholder="이름" />
         </Form.Item>
 
         <Button size="large" type="primary" htmlType="submit" className="w-full" loading={isLoading}>

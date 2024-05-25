@@ -93,12 +93,12 @@ const LoginForm = () => {
         </Button>
 
         <a className="inline-block mt-2 text-gray-400" onClick={() => setShowPasswordModal(true)}>
-          비밀번호 찾기
+          임시 로그인 정보
         </a>
       </Form>
       <RegisterForm open={registerMadal} setOpen={setRegisterMadal} ></RegisterForm>
 
-      <DefaultModal title="비밀번호 찾기" open={showPasswordModal} handleHide={() => setShowPasswordModal(false)}>
+      <DefaultModal title="임시로그인 정보" open={showPasswordModal} handleHide={() => setShowPasswordModal(false)}>
         🔑 임시 로그인 정보는 admin / admin 입니다.
       </DefaultModal>
     </>
