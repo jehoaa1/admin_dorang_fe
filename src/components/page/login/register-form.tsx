@@ -37,7 +37,8 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
           return
         }
         message.success('회원가입 성공'); 
-        //Todo 여기에 토큰 생성하고 메인으로 가는 로직 추가해야함
+        setOpen(false);
+        form.resetFields();
       } catch (error) {
         console.error('Error fetching data:', error);
       }finally{        
@@ -49,7 +50,7 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
     } catch (error) {
       setIsLoading(false);
     }
-  }, []);//[router]);
+  }, [form, setOpen]);//[router]);
 
   return (
     <>
