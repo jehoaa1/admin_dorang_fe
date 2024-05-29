@@ -4,6 +4,7 @@ import CalendarForm from "@/components/page/index/calendar-form";
 import Statistic from "@/components/page/index/statistic";
 import { useAuth } from "@/lib/auth/auth-provider";
 import { Alert, Divider, Skeleton } from "antd";
+import { useEffect, useState } from 'react';
 
 const pageHeader: IPageHeader = {
   title: "아트히어로",
@@ -12,6 +13,12 @@ const pageHeader: IPageHeader = {
 const IndexPage: IDefaultLayoutPage = () => {
   const { session } = useAuth();
   const { data, error } = useDashboard();
+  const [choiceDate, setChoiceDate] = useState(new Date()); // 초기값은 현재 날짜
+  const [classBooking, setClassBoking] = useState([]);
+
+  useEffect(() => {
+    console.log("===",choiceDate);
+  }, [choiceDate]);
 
   return (
     <>
@@ -19,7 +26,7 @@ const IndexPage: IDefaultLayoutPage = () => {
 
       <div className="my-5">
         {data ? (
-          <Statistic data={data} />
+          <Statistic/>
         ) : error ? (
           <Alert message="대시보드 API 호출 중 오류가 발생했습니다." type="warning" />
         ) : (
@@ -31,7 +38,7 @@ const IndexPage: IDefaultLayoutPage = () => {
 
       <h3 className="title">달력</h3>
 
-      <CalendarForm />
+      <CalendarForm selDate={choiceDate} setSelDate={setChoiceDate} classBookingList={classBooking}/>
     </>
   );
 };

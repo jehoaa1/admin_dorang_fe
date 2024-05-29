@@ -1,11 +1,6 @@
-import { IDashboardResponse } from "@/client/sample/dashboard";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import React from "react";
 import CountUp from "react-countup";
-
-interface IStatisticProps {
-  data: IDashboardResponse;
-}
 
 const renderChangeRate = (value: number) => {
   if (value > 0) {
@@ -25,7 +20,7 @@ const renderChangeRate = (value: number) => {
   }
 };
 
-const Statistic = ({ data }: IStatisticProps) => {
+const Statistic = () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -34,9 +29,9 @@ const Statistic = ({ data }: IStatisticProps) => {
           <div className="mt-3">
             <div className="flex items-center mt-3">
               <div className="text-2xl font-semibold grow">
-                <CountUp end={data.visitor.value} separator="," />명
+                <CountUp end={0} separator="," />명
               </div>
-              <div>{renderChangeRate(data.visitor.rate)}</div>
+              <div>{renderChangeRate(1)}</div>
             </div>
           </div>
         </div>
@@ -44,36 +39,36 @@ const Statistic = ({ data }: IStatisticProps) => {
           <div>수업 예정</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={data.order.value} separator="," />건
+              <CountUp end={0} separator="," />건
             </div>
-            <div>{renderChangeRate(data.order.rate)}</div>
+            <div>{renderChangeRate(0)}</div>
           </div>
         </div>
         <div className="p-5 border rounded-lg ">
           <div>수업 완료</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={data.order.value} separator="," />건
+              <CountUp end={0} separator="," />건
             </div>
-            <div>{renderChangeRate(data.order.rate)}</div>
+            <div>{renderChangeRate(0)}</div>
           </div>
         </div>
         <div className="p-5 border rounded-lg ">
           <div>수업 취소</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={data.order.value} separator="," />건
+              <CountUp end={0} separator="," />건
             </div>
-            <div>{renderChangeRate(data.order.rate)}</div>
+            <div>{renderChangeRate(0)}</div>
           </div>
         </div>
         <div className="p-5 border rounded-lg ">
           <div>매출</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={data.income.value} separator="," />원
+              <CountUp end={0} separator="," />건
             </div>
-            <div>{renderChangeRate(data.income.rate)}</div>
+            <div>{renderChangeRate(0)}</div>
           </div>
         </div>
       </div>
