@@ -2,6 +2,14 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import React from "react";
 import CountUp from "react-countup";
 
+interface ListItem {
+  memberNum: number;
+  plan: number;
+  done: number;
+  cancle: number;
+  paymentAmout: number;
+}
+
 const renderChangeRate = (value: number) => {
   if (value > 0) {
     return (
@@ -20,7 +28,13 @@ const renderChangeRate = (value: number) => {
   }
 };
 
-const Statistic = () => {
+const Statistic: React.FC<ListItem> = ({
+  memberNum,
+  plan,
+  done,
+  cancle,
+  paymentAmout
+}) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -29,9 +43,9 @@ const Statistic = () => {
           <div className="mt-3">
             <div className="flex items-center mt-3">
               <div className="text-2xl font-semibold grow">
-                <CountUp end={0} separator="," />명
+                <CountUp end={memberNum} separator="," />명
               </div>
-              <div>{renderChangeRate(1)}</div>
+              <div>{renderChangeRate(0)}</div>
             </div>
           </div>
         </div>
@@ -39,7 +53,7 @@ const Statistic = () => {
           <div>수업 예정</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={0} separator="," />건
+              <CountUp end={plan} separator="," />건
             </div>
             <div>{renderChangeRate(0)}</div>
           </div>
@@ -48,7 +62,7 @@ const Statistic = () => {
           <div>수업 완료</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={0} separator="," />건
+              <CountUp end={done} separator="," />건
             </div>
             <div>{renderChangeRate(0)}</div>
           </div>
@@ -57,7 +71,7 @@ const Statistic = () => {
           <div>수업 취소</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={0} separator="," />건
+              <CountUp end={cancle} separator="," />건
             </div>
             <div>{renderChangeRate(0)}</div>
           </div>
@@ -66,7 +80,7 @@ const Statistic = () => {
           <div>매출</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
-              <CountUp end={0} separator="," />건
+              <CountUp end={paymentAmout} separator="," />건
             </div>
             <div>{renderChangeRate(0)}</div>
           </div>

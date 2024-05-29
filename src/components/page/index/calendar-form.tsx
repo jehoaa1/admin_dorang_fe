@@ -3,6 +3,7 @@ import { Dayjs } from "dayjs";
 import React, { useCallback } from "react";
 
 interface ListItem {
+  date: string;
   type: string;
   content: string;
 }
@@ -10,34 +11,37 @@ interface ListItem {
 interface CalendarFormProps {
   setSelDate: React.Dispatch<React.SetStateAction<Date>>;
   classBookingList: ListItem[];
-  setClassBookingList: React.Dispatch<React.SetStateAction<ListItem[]>>;
+  getCourse: (startDate:string, endDate:string) => void;
 }
 
 const CalendarForm: React.FC<CalendarFormProps> = ({
   setSelDate,
   classBookingList,
-  setClassBookingList,
+  getCourse
 }) => {
-
-  const dateCellRender = useCallback((value: Dayjs) => {
+  const dateCellRender = useCallback((value: Dayjs) => { 
+    let key = 0;   
     return (
       <ul className="events">
-        {classBookingList.map((item) => (
-          <li key={item.content}>
-            <Badge status={item.type as BadgeProps["status"]} text={item.content} />
-          </li>
-        ))}
+        {classBookingList.map(
+          (item) => {  
+            const dateTime = item.date.split("T")
+            if(value.format('YYYY-MM-DD') == dateTime[0]){
+              return (
+                <li key={key++}>
+                  <Badge status={item.type as BadgeProps["status"]} text={`${item.content}(${dateTime[1]})`} />
+                </li>
+              )
+            }else{
+              return (
+                <li key={key++}></li>
+              )
+            }
+          }
+        )}
       </ul>
     );
   }, [classBookingList]);
-
-  const handleSetClassBooking = useCallback(() => {
-    setClassBookingList([
-      { type: "warning", content: "왼부" },
-      { type: "success", content: "내부 미팅" },
-    ]);
-    console.log('=====')
-  }, [setClassBookingList]);
 
   const headerRender = useCallback((config: any) => {
     const { value, onChange, type } = config;
@@ -46,12 +50,10 @@ const CalendarForm: React.FC<CalendarFormProps> = ({
     
     const handlePrevMonth = () => {
       onChange(value.clone().subtract(1, 'month'));
-      handleSetClassBooking();
     };
-
+    
     const handleNextMonth = () => {
       onChange(value.clone().add(1, 'month'));
-      handleSetClassBooking()
     };
 
     return (
@@ -67,7 +69,8 @@ const CalendarForm: React.FC<CalendarFormProps> = ({
         ) : null}
       </div>
     );
-  }, [handleSetClassBooking]);
+
+  }, []);
 
   const cellRender: CalendarProps<Dayjs>['cellRender'] = useCallback((current: Dayjs, info: { type: string, originNode: React.ReactNode }) => {
     if (info.type === 'date') return dateCellRender(current);
@@ -80,6 +83,7 @@ const CalendarForm: React.FC<CalendarFormProps> = ({
       mode="month"
       onChange={(data) => setSelDate(data.toDate())}
       headerRender={headerRender}
+      onPanelChange={(value)=>getCourse(value.startOf('month').format('YYYY-MM-DD'), value.endOf('month').format('YYYY-MM-DD'))}
     />
   );
 };
