@@ -39,7 +39,7 @@ const getMonthData = (value: Dayjs) => {
   }
 };
 
-const CalendarSample = () => {
+const CalendarForm = () => {
   const monthCellRender = (value: Dayjs) => {
     const num = getMonthData(value);
     return num ? (
@@ -72,4 +72,4 @@ const CalendarSample = () => {
   return <Calendar cellRender={cellRender} />;
 };
 
-export default React.memo(CalendarSample);
+export default React.memo(CalendarForm);

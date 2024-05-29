@@ -102,7 +102,7 @@ API와 관련된 코드와 Type을 관리합니다.
 통계, 검색, 리스트, 입력폼등 기본 기능을 확인할 수 있습니다.
 
 - [src/components/page/index/calendar-sample.tsx](src/components/page/index/calendar-sample.tsx): 캘린더 샘플 컴포넌트
-- [src/components/page/index/statistic-sample.tsx](src/components/page/index/statistic-sample.tsx): 통계 샘플 컴포넌트
+- [src/components/page/index/statistic.tsx](src/components/page/index/statistic.tsx): 통계 샘플 컴포넌트
 - [src/components/page/sample/product/product-form.tsx](src/components/page/sample/product/product-form.tsx): 상품 입력폼 (생성/수정 공통 사용) 컴포넌트
 - [src/components/page/sample/product/product-list.tsx](src/components/page/sample/product/product-list.tsx): 상품 목록 컴포넌트
 - [src/components/page/sample/product/product-search.tsx](src/components/page/sample/product/product-search.tsx): 상품 검색 컴포넌트
@@ -240,8 +240,10 @@ API와 관련된 코드와 Type을 관리합니다.
 
 ## Author
 
-- subicura ([@subicura](https://twitter.com/subicura))
-=======
+- # subicura ([@subicura](https://twitter.com/subicura))
+
 # admin_dorang
+
 도랑도랑 미술학원 관리페이지
->>>>>>> 5e34cbad4810e1e3328668d0003a7979f5eb0bce
+
+> > > > > > > 5e34cbad4810e1e3328668d0003a7979f5eb0bce

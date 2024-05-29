@@ -3,7 +3,7 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import React from "react";
 import CountUp from "react-countup";
 
-interface IStatisticSampleProps {
+interface IStatisticProps {
   data: IDashboardResponse;
 }
 
@@ -25,12 +25,12 @@ const renderChangeRate = (value: number) => {
   }
 };
 
-const StatisticSample = ({ data }: IStatisticSampleProps) => {
+const Statistic = ({ data }: IStatisticProps) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         <div className="p-5 border rounded-lg ">
-          <div>방문자</div>
+          <div>수강생</div>
           <div className="mt-3">
             <div className="flex items-center mt-3">
               <div className="text-2xl font-semibold grow">
@@ -41,7 +41,25 @@ const StatisticSample = ({ data }: IStatisticSampleProps) => {
           </div>
         </div>
         <div className="p-5 border rounded-lg ">
-          <div>주문</div>
+          <div>수업 예정</div>
+          <div className="flex items-center mt-3">
+            <div className="text-2xl font-semibold grow">
+              <CountUp end={data.order.value} separator="," />건
+            </div>
+            <div>{renderChangeRate(data.order.rate)}</div>
+          </div>
+        </div>
+        <div className="p-5 border rounded-lg ">
+          <div>수업 완료</div>
+          <div className="flex items-center mt-3">
+            <div className="text-2xl font-semibold grow">
+              <CountUp end={data.order.value} separator="," />건
+            </div>
+            <div>{renderChangeRate(data.order.rate)}</div>
+          </div>
+        </div>
+        <div className="p-5 border rounded-lg ">
+          <div>수업 취소</div>
           <div className="flex items-center mt-3">
             <div className="text-2xl font-semibold grow">
               <CountUp end={data.order.value} separator="," />건
@@ -63,4 +81,4 @@ const StatisticSample = ({ data }: IStatisticSampleProps) => {
   );
 };
 
-export default React.memo(StatisticSample);
+export default React.memo(Statistic);

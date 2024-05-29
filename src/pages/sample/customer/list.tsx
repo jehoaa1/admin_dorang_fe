@@ -3,7 +3,7 @@ import ProductList from "@/components/page/sample/product/product-list";
 import ProductSearch from "@/components/page/sample/product/product-search";
 
 const pageHeader: IPageHeader = {
-  title: "상품 목록",
+  title: "고객 목록",
 };
 
 const ProductListPage: IDefaultLayoutPage = () => {

@@ -3,7 +3,6 @@ import DefaultModal from "@/components/shared/ui/default-modal";
 import { Alert, Button, Form, Input, message } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import cookie from 'js-cookie';
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 
@@ -55,7 +54,7 @@ const LoginForm = () => {
           <Alert message={`로그인 중 오류가 발생했습니다. ${router?.query.error}`} type="warning" />
         </div>
       ) : null}
-      <div className="grid grid-cols-1 gap-4">
+      {/* <div className="grid grid-cols-1 gap-4">
         <a className="flex items-center justify-center h-20 grow btn" onClick={() => signIn("google")}>
           <svg width="29" height="29" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -77,7 +76,7 @@ const LoginForm = () => {
           </svg>
         </a>
       </div>
-      <div className="my-5 text-lg text-center text-gray-400">or</div>
+      <div className="my-5 text-lg text-center text-gray-400">or</div> */}
       <Form<ILoginFormValue>
         form={form}
         layout="vertical"

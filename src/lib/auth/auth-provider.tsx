@@ -78,10 +78,12 @@ const AuthProvider = ({ children }: PropsWithChildren<IAuthProviderProps>) => {
               
               setInitializedSession(sessionData);
             } else {
+              cookie.remove('token');
               router.push('/login');
             }
           } catch (error) {
             console.error('Token verification failed:', error);
+            cookie.remove('token');
             router.push('/login');
           } finally {
             setLoading(false);

@@ -35,7 +35,6 @@ const LoginPage = () => {
             ) : null}
             <div className="flex flex-col items-center justify-center px-2 mt-8 sm:mt-0">
               <h2 className="mt-2 text-5xl font-bold leading-tight inter">아트히어로 신내</h2>
-              <div className="mt-1 text-lg text-gray-400">Admin System</div>
             </div>
 
             <div className="w-full px-2 mt-12 sm:px-6">
