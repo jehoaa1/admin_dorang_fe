@@ -4,7 +4,7 @@ import CalendarForm from "@/components/page/index/calendar-form";
 import Statistic from "@/components/page/index/statistic";
 import { useAuth } from "@/lib/auth/auth-provider";
 import { Alert, Divider, Skeleton } from "antd";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const pageHeader: IPageHeader = {
   title: "아트히어로",
@@ -14,11 +14,10 @@ const IndexPage: IDefaultLayoutPage = () => {
   const { session } = useAuth();
   const { data, error } = useDashboard();
   const [choiceDate, setChoiceDate] = useState(new Date()); // 초기값은 현재 날짜
-  const [classBooking, setClassBoking] = useState([]);
-
-  useEffect(() => {
-    console.log("===",choiceDate);
-  }, [choiceDate]);
+  const [classBooking, setClassBooking] = useState([
+        { type: "warning", content: "외부 미팅" },
+        { type: "success", content: "내부 미팅" },
+      ]);
 
   return (
     <>
@@ -38,7 +37,7 @@ const IndexPage: IDefaultLayoutPage = () => {
 
       <h3 className="title">달력</h3>
 
-      <CalendarForm selDate={choiceDate} setSelDate={setChoiceDate} classBookingList={classBooking}/>
+      <CalendarForm setSelDate={setChoiceDate} classBookingList={classBooking} setClassBookingList={setClassBooking}/>
     </>
   );
 };
