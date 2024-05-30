@@ -1,6 +1,6 @@
 import { useProduct } from "@/client/sample/product";
 import { getDefaultLayout, IDefaultLayoutPage, IPageHeader } from "@/components/layout/default-layout";
-import ProductForm from "@/components/page/sample/product/product-form";
+import CustomerForm from "@/components/page/customer/customer-form";
 import { Alert, Skeleton } from "antd";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,7 @@ const ProductEditPage: IDefaultLayoutPage = () => {
     return <Skeleton className="my-5" />;
   }
 
-  return <ProductForm id={router.query.id as string} initialValues={data.data} />;
+  return <CustomerForm id={router.query.id as string} initialValues={data.data} />;
 };
 
 ProductEditPage.getLayout = getDefaultLayout;

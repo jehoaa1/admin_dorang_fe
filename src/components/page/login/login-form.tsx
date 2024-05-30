@@ -28,7 +28,7 @@ const LoginForm = () => {
     //   setIsLoading(false);
     // }
   const response = 
-    await fetch(`http://localhost:8000/auth/login/email`,{
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login/email`,{
       method : "POST",
       headers: {
         'Content-Type': 'application/json',

@@ -50,11 +50,11 @@ export const useMembers = (params: MembersParams = {}) => {
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
     .join('&');
 
-  const queryString = queryParams.length > 0 ? `?${queryParams}` : '';
+  const queryString = queryParams.length > 0 ? `${queryParams}` : '';
 
 
   const token = cookie.get('token');
-  const url = `http://localhost:8000/members/list?${queryString}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/members/list?${queryString}`;
   
   return useSWR<MembersResponse>(
     url,
@@ -92,7 +92,7 @@ export const getMembers = async(params: MembersParams = {}) => {
   const queryString = queryParams.length > 0 ? `${queryParams}` : '';
 
   const token = cookie.get('token');
-  const url = `http://localhost:8000/members/list?${queryString}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/members/list?${queryString}`;
   
   const res = await fetch(url, {
     headers: {
@@ -102,4 +102,20 @@ export const getMembers = async(params: MembersParams = {}) => {
   });
   
   return await res.json();
+};
+
+export const delMembers = async(id: number) => {  
+  const token = cookie.get('token');
+  const response = 
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/members/${id}`,{
+    method : "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    }
+  });
+
+  const responseData = await response.json(); // 응답 본문을 JSON으로 파싱
+  
+  return responseData.result;
 };

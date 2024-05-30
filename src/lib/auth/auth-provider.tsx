@@ -51,7 +51,7 @@ const AuthProvider = ({ children }: PropsWithChildren<IAuthProviderProps>) => {
     if (token) {
       const verifyToken = async () => {
         try {
-          const res = await fetch('http://localhost:8000/auth/verify-token', {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-token`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

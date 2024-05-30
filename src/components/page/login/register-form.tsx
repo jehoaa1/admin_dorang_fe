@@ -22,7 +22,7 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
     try {
 
       try {
-        const response = await fetch(`http://localhost:8000/auth/register/email`,{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register/email`,{
           method : "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const RegisterForm = (props: { open: any; setOpen: any; }) => {
         });
 
         const responseData = await response.json(); // 응답 본문을 JSON으로 파싱
-        console.log('Response Data:', responseData);
+        
         if(responseData.result == "fail"){
           message.error(responseData.result_msg);
           return

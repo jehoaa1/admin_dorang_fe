@@ -7,7 +7,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 
-const CustomerList = ({data}: {data: MembersResponse}) => {
+export interface CustomerListProps {
+  data: MembersResponse;
+  delMembers: (id: number) => Promise<void>; // delMembers는 회원 ID를 받아서 삭제를 수행하는 함수
+}
+
+const CustomerList: React.FC<CustomerListProps>= ({ data, delMembers }) => {
   const router = useRouter();
   
   const handleChangePage = useCallback(
@@ -72,8 +77,8 @@ const CustomerList = ({data}: {data: MembersResponse}) => {
               수정
             </Link>
             <Popconfirm
-              title="상품을 삭제하시겠습니까?"
-              onConfirm={() => alert("삭제")}
+              title="수강생 삭제하시겠습니까?"
+              onConfirm={() => delMembers(record.member.id)}
               okText="예"
               cancelText="아니오"
             >

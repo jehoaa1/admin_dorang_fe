@@ -30,7 +30,7 @@ const IndexPage: IDefaultLayoutPage = () => {
     cancle.current=0;
     paymentAmout.current=0;
     const queryString = `start_date=${startDate}&end_date=${endDate}`
-    const response =  await fetch(`http://localhost:8000/course/list?${queryString}`,{
+    const response =  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/course/list?${queryString}`,{
       method : "GET",
       headers: {
         'Content-Type': 'application/json',
