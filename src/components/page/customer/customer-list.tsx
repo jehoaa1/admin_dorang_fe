@@ -1,17 +1,15 @@
-import { Members, useMembers } from "@/client/member";
+import { Members, MembersResponse } from "@/client/member";
 import DefaultTable from "@/components/shared/ui/default-table";
 import DefaultTableBtn from "@/components/shared/ui/default-table-btn";
-import { Alert, Button, Popconfirm } from "antd";
+import { Button, Popconfirm } from "antd";
 import { ColumnsType } from "antd/es/table";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 
-const CustomerList = () => {
+const CustomerList = ({data}: {data: MembersResponse}) => {
   const router = useRouter();
-
-  const { data, error, isLoading } = useMembers({ page: router.query.page ? Number(router.query.page) : 1 });
-
+  
   const handleChangePage = useCallback(
     (pageNumber: number) => {
       router.push({
@@ -87,10 +85,6 @@ const CustomerList = () => {
     }
   ];
 
-  if (error) {
-    return <Alert message="데이터 로딩 중 오류가 발생했습니다." type="warning" />;
-  }
-
   return (
     <>
       <DefaultTableBtn className="justify-between">
@@ -105,10 +99,9 @@ const CustomerList = () => {
         rowKey={(record) => (record.member).id} // rowKey 설정
         columns={columns}
         dataSource={data?.response.result || []}
-        loading={isLoading}
         pagination={{
           current: Number(router.query.page || 1),
-          defaultPageSize: 5,
+          defaultPageSize: 10,
           total: data?.response?.total_count || 0,
           showSizeChanger: false,
           onChange: handleChangePage,

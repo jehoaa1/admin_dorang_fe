@@ -6,49 +6,14 @@ import FormSearch from "@/components/shared/form/ui/form-search";
 import { Button, Form, Input, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { Search } from "lucide-react";
-import moment from "moment"; // moment 라이브러리 추가
-import { useRouter } from "next/router";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 
-const CustomerSearch = () => {
+interface CustomerSearchProps {
+  handleFinish: (params: MembersParams) => void;
+}
+
+const CustomerSearch: React.FC<CustomerSearchProps> = ({ handleFinish }) => {
   const [form] = useForm();
-  const router = useRouter();
-
-  // 쿼리스트링에서 값을 읽어와 폼 필드에 설정하는 useEffect
-  useEffect(() => {
-    const { searchType, searchText, start_date, end_date } = router.query;
-
-    // 날짜 필드는 moment 객체로 변환하여 설정
-    const searchDatePeriod = [start_date ? moment(start_date) : null, end_date ? moment(end_date) : null];
-
-    form.setFieldsValue({
-      searchType,
-      searchText,
-      searchDatePeriod: searchDatePeriod.filter(Boolean).length ? searchDatePeriod : undefined, // 필터링된 값만 설정
-    });
-  }, [router.query, form]);
-
-  const handleFinish = useCallback(
-    (formValue: MembersParams) => {
-      // 날짜 범위를 개별 필드로 분리
-      const { searchDatePeriod, ...restFormValue } = formValue;
-      const [start_date, end_date] = searchDatePeriod || [];
-
-      // 새로운 쿼리 객체 생성
-      const query = {
-        ...router.query,
-        ...restFormValue,
-        ...(start_date && { start_date: start_date.format("YYYY-MM-DD") }),
-        ...(end_date && { end_date: end_date.format("YYYY-MM-DD") }),
-      };
-
-      router.push({
-        pathname: router.pathname,
-        query,
-      });
-    },
-    [router]
-  );
 
   return (
     <DefaultSearchForm form={form} onFinish={handleFinish}>
