@@ -3,7 +3,7 @@ import CustomerList from "@/components/page/customer/customer-list";
 import CustomerSearch from "@/components/page/customer/customer-search";
 
 const pageHeader: IPageHeader = {
-  title: "고객 목록",
+  title: "수강생 목록",
 };
 
 const CustomerListPage: IDefaultLayoutPage = () => {
