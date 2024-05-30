@@ -3,8 +3,9 @@ import CalendarForm from "@/components/page/index/calendar-form";
 import Statistic from "@/components/page/index/statistic";
 import { useAuth } from "@/lib/auth/auth-provider";
 import { Divider } from "antd";
+import dayjs from "dayjs";
 import cookie from "js-cookie";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const pageHeader: IPageHeader = {
   title: "아트히어로",
@@ -44,13 +45,14 @@ const IndexPage: IDefaultLayoutPage = () => {
       if(!memberChk.includes(item.members_id)){
         memberChk.push(item.members_id)
       }
-      console.log("====",startDate,item.payment_date,endDate)
+      
       if(startDate <= item.payment_date && endDate >= item.payment_date ){
         paymentAmout.current += item.payment_amount;
       }
       
       item.class_booking?.forEach((data:any)=>{
-        if(startDate <= data.reservation_date && endDate >= data.reservation_date ){
+        const toDate = data.reservation_date.split("T")[0];
+        if(startDate <= toDate && endDate >= toDate){
           switch(data.enrollment_status){
             case "1": 
               plan.current++;
@@ -72,6 +74,15 @@ const IndexPage: IDefaultLayoutPage = () => {
     setClassBooking(classBookingList)
   }
 
+  useEffect(() => {
+    const today = dayjs();
+    // 현재 월의 첫 날
+    const startDate = dayjs(today).startOf('month').format('YYYY-MM-DD');
+
+    // 현재 월의 마지막 날
+    const endDate = dayjs(today).endOf('month').format('YYYY-MM-DD');
+    getCourse(startDate, endDate);
+  }, []);
 
   return (
     <>
