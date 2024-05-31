@@ -19,9 +19,29 @@ const mainMenuData: IMenu[] = [
     submenu: [
       {
         id: "customerList",
-        name: "수강생 목록",
+        name: "수강생",
         link: {
           path: "/customer/list",
+        },
+      },{
+        id: "courseList",
+        name: "수강신청",
+        link: {
+          path: "/course/list",
+        },
+      },
+    ],
+  },
+  {
+    id: "classBooking",
+    name: "강의 관리",
+    icon: <Package2 className="w-5 h-5" />,
+    submenu: [
+      {
+        id: "classBookingList",
+        name: "강의 예약",
+        link: {
+          path: "/classBooking/list",
         },
       },
     ],

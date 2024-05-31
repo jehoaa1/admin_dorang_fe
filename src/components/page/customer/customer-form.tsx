@@ -40,7 +40,7 @@ const CustomerForm = ({ id, initialValues }: IProductFormProps) => {
     <>
       {contextHolder}
       <DefaultForm form={form} initialValues={initialValues?.response?.result[0].member} onFinish={handleFinish}>
-        <FormSection title="기본정보" description="상품 기본 정보를 입력해주세요">        
+        <FormSection title="수강생 정보" description="수강생 정보를 입력해주세요">        
 
           <FormGroup title="이름*">
             <Form.Item name="name" rules={[{ required: true, message: "필수값입니다" }]}>

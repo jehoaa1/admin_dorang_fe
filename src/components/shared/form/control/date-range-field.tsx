@@ -5,6 +5,7 @@ import React from "react";
 interface IDateRangeFieldProps {
   value?: (dayjs.Dayjs | null)[];
   onChange?: (value: (dayjs.Dayjs | null)[]) => void;
+  viewType?: number
 }
 
 const dateRangeOptions = [
@@ -16,7 +17,7 @@ const dateRangeOptions = [
   { label: "1년", value: "1year" },
 ];
 
-const DateRangeField = ({ value, onChange }: IDateRangeFieldProps) => {
+const DateRangeField = ({ value, onChange, viewType }: IDateRangeFieldProps) => {
   const handleDateRangeChange = (e: RadioChangeEvent) => {
     if (e.target.value === "today") {
       onChange?.([dayjs(), dayjs()]);
@@ -50,6 +51,7 @@ const DateRangeField = ({ value, onChange }: IDateRangeFieldProps) => {
         }}
         value={value?.[1]}
       />
+      {viewType != 2 && (
       <div className="flex items-center gap-1">
         <Radio.Group
           size="small"
@@ -59,6 +61,7 @@ const DateRangeField = ({ value, onChange }: IDateRangeFieldProps) => {
           onChange={handleDateRangeChange}
         />
       </div>
+      )}
     </div>
   );
 };
