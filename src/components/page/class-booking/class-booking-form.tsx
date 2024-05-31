@@ -1,6 +1,6 @@
 import { ClassBookingResponse, IClassBooking, UClassBooking, insClassBooking, updClassBooking } from "@/client/class-booking";
 import { useCourseRemainSessionCount } from "@/client/course";
-import DateRangeField from "@/components/shared/form/control/date-time-field";
+import DateTimeField from "@/components/shared/form/control/date-time-field";
 import DefaultForm from "@/components/shared/form/ui/default-form";
 import FormGroup from "@/components/shared/form/ui/form-group";
 import FormSection from "@/components/shared/form/ui/form-section";
@@ -80,7 +80,7 @@ const ClassBookingForm = ({ id, initialValues }: IClassBookingFormProps) => {
 
           <FormGroup title="예약시간*">
             <Form.Item name="searchDatePeriod">
-              <DateRangeField/>
+              <DateTimeField/>
             </Form.Item>
           </FormGroup>
 

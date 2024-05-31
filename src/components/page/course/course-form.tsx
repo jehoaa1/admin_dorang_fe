@@ -1,6 +1,7 @@
 import { CoursesResponse, ICourses, insCourses, updCourses } from "@/client/course";
 import { useMembers } from "@/client/member";
 import DateRangeField from "@/components/shared/form/control/date-range-field";
+import DateTimeField from "@/components/shared/form/control/date-time-field";
 import DefaultForm from "@/components/shared/form/ui/default-form";
 import FormGroup from "@/components/shared/form/ui/form-group";
 import FormSection from "@/components/shared/form/ui/form-section";
@@ -25,12 +26,14 @@ const CourseForm = ({ id, initialValues }: ICourseFormProps) => {
       setIsLoading(true);
       const startDate = dayjs(formValue.searchDatePeriod[0]).tz("Asia/Seoul").format("YYYY-MM-DD");
       const endDate = dayjs(formValue.searchDatePeriod[1]).tz("Asia/Seoul").format("YYYY-MM-DD");
+      const payment_date = dayjs(formValue.payment_date).tz("Asia/Seoul").format("YYYY-MM-DD");
       const param: ICourses = {
         members_id: formValue.members_id,
         class_type:formValue.class_type,
         start_date:new Date(startDate),
         end_date:new Date(endDate),
         session_count:formValue.session_count,
+        payment_date:new Date(payment_date),
         payment_amount:formValue.payment_amount
       }
       if (id) {
@@ -103,6 +106,14 @@ const CourseForm = ({ id, initialValues }: ICourseFormProps) => {
           <FormGroup title="수업 횟수*">
             <Form.Item name="session_count" rules={[{ required: true, message: "필수값입니다" }]}>
               <Input placeholder="수업 횟수를 입력하세요" />
+            </Form.Item>
+          </FormGroup>
+
+          <Divider />
+
+          <FormGroup title="결제일*">
+            <Form.Item name="payment_date">
+              <DateTimeField/>
             </Form.Item>
           </FormGroup>
 

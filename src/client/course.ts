@@ -57,6 +57,7 @@ export interface ICourses {
   start_date:Date;
   end_date:Date;
   session_count:number;
+  payment_date:Date;
   payment_amount:number;
 }
 // export interface MemberAndCourses{

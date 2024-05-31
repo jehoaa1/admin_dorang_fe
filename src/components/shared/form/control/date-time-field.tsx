@@ -10,12 +10,12 @@ dayjs.extend(timezone); // 수정된 부분
 
 const seoulTime = (date?: dayjs.ConfigType) => dayjs(date).tz("Asia/Seoul"); // 수정된 부분
 
-interface IDateRangeFieldProps {
+interface IDateTimeFieldProps {
   value?: Dayjs | null; // 수정된 부분
   onChange?: (value: (dayjs.Dayjs | null)[]) => void;
 }
 
-const DateRangeField = ({ value, onChange }: IDateRangeFieldProps) => {
+const DateTimeField = ({ value, onChange }: IDateTimeFieldProps) => {
   const handleDateChange = (date: dayjs.Dayjs | null) => {
     onChange?.([date]); 
   };
@@ -32,4 +32,4 @@ const DateRangeField = ({ value, onChange }: IDateRangeFieldProps) => {
   );
 };
 
-export default React.memo(DateRangeField);
+export default React.memo(DateTimeField);
