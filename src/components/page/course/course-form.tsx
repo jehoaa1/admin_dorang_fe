@@ -52,10 +52,7 @@ const CourseForm = ({ id, initialValues }: ICourseFormProps) => {
     dayjs(initialValues?.response?.result[0].start_date),
     dayjs(initialValues?.response?.result[0].end_date)
   ]};
-
-  console.log('editData===',editData)
-  console.log('initialValues?.response?.result[0]===',initialValues?.response?.result[0])
-
+  
   return (
     <>
       {contextHolder}
