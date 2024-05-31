@@ -41,7 +41,7 @@ const mainMenuData: IMenu[] = [
         id: "classBookingList",
         name: "강의 예약",
         link: {
-          path: "/classBooking/list",
+          path: "/class-booking/list",
         },
       },
     ],

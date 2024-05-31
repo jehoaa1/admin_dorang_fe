@@ -105,6 +105,70 @@ export const useCourses = (params: CoursesParams = {}) => {
   );
 };
 
+export const useCourseRemainSessionCount = (params: CoursesParams = {}) => {
+  const { id, name, phone, parent_phone, class_type, start_date, end_date, page, per_page } = params;  
+  
+  const paramsList: CoursesParams = {
+    id: id || undefined,
+    start_date: start_date || undefined,
+    end_date: end_date || undefined,
+  };
+
+  const queryParams = Object.entries(paramsList)
+    .filter(([key, value]) => value !== undefined && value !== '')
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+
+  const queryString = queryParams.length > 0 ? `${queryParams}` : '';
+
+  const token = cookie.get('token');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/course/remain/session-count/list?${queryString}`;
+  
+  return useSWR<CoursesResponse>(
+    url,
+    async () => {
+      const res = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
+        }
+      });
+      
+      return await res.json();
+    },
+  );
+};
+
+export const getCourseRemainSessionCount = async(params: CoursesParams = {}) => {
+  const { id, start_date, end_date } = params;  
+
+  const paramsList: CoursesParams = {
+    id: id || undefined,
+    start_date: start_date || undefined,
+    end_date: end_date || undefined,
+  };
+  
+  const queryParams = Object.entries(paramsList)
+    .filter(([key, value]) => value !== undefined && value !== '')
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+
+  const queryString = queryParams.length > 0 ? `${queryParams}` : '';
+
+  const token = cookie.get('token');
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/course/remain/session-count/list?${queryString}`;
+  
+  const res = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${token}`
+    }
+  });
+  
+  return await res.json();
+};
+
+
 export const getCourses = async(params: CoursesParams = {}) => {
   const { name, phone, parent_phone, class_type, start_date, end_date, page, per_page } = params;  
   

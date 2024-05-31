@@ -2,9 +2,9 @@ import { MembersParams, delMembers, getMembers, useMembers } from "@/client/memb
 import { IDefaultLayoutPage, IPageHeader, getDefaultLayout } from "@/components/layout/default-layout";
 import CustomerList from "@/components/page/customer/customer-list";
 import CustomerSearch from "@/components/page/customer/customer-search";
+import dayjs from 'dayjs';
 import { useRouter } from "next/router";
 import { useState } from 'react';
-
 const pageHeader: IPageHeader = {
   title: "수강생",
 };
@@ -15,8 +15,8 @@ const CustomerListPage: IDefaultLayoutPage = () => {
   const [dataC, setDataC] = useState(data);
   
   const refunc = async(params: MembersParams = {}) => {
-    const startDate = params.searchDatePeriod?.[0]?.toISOString().split("T")[0];
-    const endDate = params.searchDatePeriod?.[1]?.toISOString().split("T")[0];
+    const startDate = params.searchDatePeriod?.[0] ? dayjs(params.searchDatePeriod[0]).tz("Asia/Seoul").format("YYYY-MM-DD") : null;
+    const endDate = params.searchDatePeriod?.[1] ? dayjs(params.searchDatePeriod[1]).tz("Asia/Seoul").format("YYYY-MM-DD") : null;
     const name = params.searchType == 'name' && params.searchText;
     const phone = params.searchType == 'phone' && params.searchText;
     const parent_phone = params.searchType == 'parent_phone' && params.searchText;
@@ -25,8 +25,8 @@ const CustomerListPage: IDefaultLayoutPage = () => {
         name: name || undefined,
         phone: phone || undefined,
         parent_phone: parent_phone || undefined,
-        start_date: startDate,
-        end_date: endDate,
+        start_date: startDate || undefined,
+        end_date: endDate || undefined,
         page: router.query.page ? Number(router.query.page) : 1
       });
 

@@ -23,13 +23,13 @@ const CourseForm = ({ id, initialValues }: ICourseFormProps) => {
   const handleFinish = async (formValue: any) => {
     try {
       setIsLoading(true);
-      const startDate = formValue.searchDatePeriod?.[0]?.toISOString().split("T")[0];
-      const endDate = formValue.searchDatePeriod?.[1]?.toISOString().split("T")[0];
+      const startDate = dayjs(formValue.searchDatePeriod[0]).tz("Asia/Seoul").format("YYYY-MM-DD");
+      const endDate = dayjs(formValue.searchDatePeriod[1]).tz("Asia/Seoul").format("YYYY-MM-DD");
       const param: ICourses = {
         members_id: formValue.members_id,
         class_type:formValue.class_type,
-        start_date:startDate,
-        end_date:endDate,
+        start_date:new Date(startDate),
+        end_date:new Date(endDate),
         session_count:formValue.session_count,
         payment_amount:formValue.payment_amount
       }
