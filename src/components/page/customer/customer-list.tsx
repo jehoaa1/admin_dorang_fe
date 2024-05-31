@@ -67,13 +67,25 @@ const CustomerList: React.FC<CustomerListProps>= ({ data, delMembers }) => {
       }
     },
     {
+      title: "누적 결제금액",
+      align: "center",
+      width: 120,
+      render: (_value: unknown, record: Members) => {
+        let payment = 0
+        record.courses.forEach((course)=>{
+          payment += course.payment_amount
+        })
+        return (<span>{payment.toLocaleString()}</span>)
+      }
+    },
+    {
       key: "action",
       width: 100,
       align: "center",
       render: (_value: unknown, record: Members) => {
         return (
           <span className="flex justify-center gap-2">
-            <Link href={`/sample/product/edit/${record.member.id}`} className="px-2 py-1 text-sm btn">
+            <Link href={`/customer/edit/${record.member.id}`} className="px-2 py-1 text-sm btn">
               수정
             </Link>
             <Popconfirm
@@ -94,7 +106,7 @@ const CustomerList: React.FC<CustomerListProps>= ({ data, delMembers }) => {
     <>
       <DefaultTableBtn className="justify-between">
         <div className="flex-item-list">
-          <Button type="primary" onClick={() => router.push("/sample/product/new")}>
+          <Button type="primary" onClick={() => router.push("/customer/new")}>
             수강생 등록
           </Button>
         </div>

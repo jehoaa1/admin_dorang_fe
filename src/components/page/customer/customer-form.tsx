@@ -1,16 +1,14 @@
-import { IProductFormValue, createProduct, updateProduct } from "@/client/sample/product";
-import CodemirrorEditor from "@/components/shared/form/control/codemirror-editor";
-import QuillEditor from "@/components/shared/form/control/quill-editor";
+import { MembersResponse, courses, insMembers, updMembers } from "@/client/member";
 import DefaultForm from "@/components/shared/form/ui/default-form";
 import FormGroup from "@/components/shared/form/ui/form-group";
 import FormSection from "@/components/shared/form/ui/form-section";
-import { Button, Divider, Form, Input, Radio, Select, message } from "antd";
+import { Button, Divider, Form, Input, message } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import React, { useState } from "react";
 
 interface IProductFormProps {
   id?: string;
-  initialValues?: Partial<IProductFormValue>;
+  initialValues?: Partial<MembersResponse>;
 }
 
 const CustomerForm = ({ id, initialValues }: IProductFormProps) => {
@@ -18,96 +16,85 @@ const CustomerForm = ({ id, initialValues }: IProductFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const handleFinish = async (formValue: IProductFormValue) => {
+  const handleFinish = async (formValue: any) => {
     try {
       setIsLoading(true);
 
       if (id) {
-        await updateProduct(id, formValue);
+        await updMembers(Number(id), formValue);
         messageApi.success("수정되었습니다");
       } else {
-        await createProduct(formValue);
+        await insMembers(formValue);
         messageApi.success("생성되었습니다");
       }
     } catch (e: unknown) {
       messageApi.error("에러가 발생했습니다");
     } finally {
       setTimeout(() => setIsLoading(false), 500);
+      window.location.href = "/customer/list";
+
     }
   };
 
   return (
     <>
       {contextHolder}
-      <DefaultForm<IProductFormValue> form={form} initialValues={initialValues} onFinish={handleFinish}>
-        <FormSection title="기본정보" description="상품 기본 정보를 입력해주세요">
-          <FormGroup title="판매상태*">
-            <Form.Item name="status" rules={[{ required: true, message: "필수값입니다" }]}>
-              <Radio.Group>
-                <Radio value="SALE">판매중</Radio>
-                <Radio value="SOLDOUT">재고없음</Radio>
-                <Radio value="NOTSALE">판매중지</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </FormGroup>
+      <DefaultForm form={form} initialValues={initialValues?.response?.result[0].member} onFinish={handleFinish}>
+        <FormSection title="기본정보" description="상품 기본 정보를 입력해주세요">        
 
-          <Divider />
-
-          <FormGroup title="브랜드*">
-            <Form.Item name="brand" rules={[{ required: true, message: "필수값입니다" }]}>
-              <Select style={{ maxWidth: 200 }} placeholder="브랜드를 선택하세요">
-                <Select.Option value="apple">apple</Select.Option>
-                <Select.Option value="파타고니아">파타고니아</Select.Option>
-                <Select.Option value="다이슨">다이슨</Select.Option>
-                <Select.Option value="Aēsop">Aēsop</Select.Option>
-                <Select.Option value="LUSH">LUSH</Select.Option>
-                <Select.Option value="블루보틀">블루보틀</Select.Option>
-              </Select>
-            </Form.Item>
-          </FormGroup>
-
-          <Divider />
-
-          <FormGroup title="상품명*">
+          <FormGroup title="이름*">
             <Form.Item name="name" rules={[{ required: true, message: "필수값입니다" }]}>
-              <Input placeholder="상품명을 입력하세요" />
+              <Input placeholder="이름을 입력하세요" />
             </Form.Item>
           </FormGroup>
 
           <Divider />
 
-          <FormGroup title="상품코드*">
-            <Form.Item name="code" rules={[{ required: true, message: "필수값입니다" }]}>
-              <Input placeholder="상품코드를 입력하세요" />
+          <FormGroup title="생일*">
+            <Form.Item name="birth_day" rules={[{ required: true, message: "필수값입니다" }]}>
+              <Input placeholder="생년월일을 입력하세요" />
             </Form.Item>
           </FormGroup>
 
           <Divider />
 
-          <FormGroup title="금액*">
-            <Form.Item name="price" rules={[{ required: true, message: "필수값입니다" }]}>
-              <Input placeholder="금액을 입력하세요" />
-            </Form.Item>
-          </FormGroup>
-        </FormSection>
-
-        <FormSection title="상품상세" description="상품 상세 정보를 입력해주세요">
-          <FormGroup title="상품상세">
-            <Form.Item name="description">
-              <QuillEditor />
+          <FormGroup title="연락처*">
+            <Form.Item name="phone" rules={[{ required: true, message: "필수값입니다" }]}>
+              <Input placeholder="연락처를 입력하세요" />
             </Form.Item>
           </FormGroup>
 
           <Divider />
 
-          <FormGroup title="CSS/JS">
-            <Form.Item name="css">
-              <CodemirrorEditor />
-            </Form.Item>
-            <Form.Item name="js">
-              <CodemirrorEditor />
+          <FormGroup title="보호자 연락처*">
+            <Form.Item name="parent_phone" rules={[{ required: true, message: "필수값입니다" }]}>
+              <Input placeholder="보호자 연락처를 입력하세요" />
             </Form.Item>
           </FormGroup>
+
+          <Divider />
+
+          <FormGroup title="학교명*">
+            <Form.Item name="institution_name" rules={[{ required: true, message: "필수값입니다" }]}>
+              <Input placeholder="학교를 입력하세요" />
+            </Form.Item>
+          </FormGroup>
+
+          <Divider />
+          {id && (
+          <FormGroup title="수강 정보">
+            {initialValues?.response?.result[0].courses?.map((course:courses) => (
+              <div key={course.id} style={{ marginBottom: '16px' }}>
+                <div>클래스 타입: {course.class_type}</div>
+                <div>시작 날짜: {course.start_date ? new Date(course.start_date).toLocaleDateString() : '날짜 없음'}</div>
+                <div>종료 날짜: {course.end_date ? new Date(course.end_date).toLocaleDateString() : '날짜 없음'}</div>
+                <div>세션 수: {course.session_count}</div>
+                <div>결제 금액: {course.payment_amount}</div>
+                <Divider />
+              </div>
+            ))}
+          </FormGroup>
+          )}
         </FormSection>
 
         <div className="text-center">

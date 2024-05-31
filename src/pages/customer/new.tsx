@@ -1,15 +1,15 @@
 import { getDefaultLayout, IDefaultLayoutPage, IPageHeader } from "@/components/layout/default-layout";
-import ProductForm from "@/components/page/sample/product/product-form";
+import CustomerForm from "@/components/page/customer/customer-form";
 
 const pageHeader: IPageHeader = {
-  title: "상품등록",
+  title: "수강생 등록",
 };
 
-const ProductNewPage: IDefaultLayoutPage = () => {
-  return <ProductForm initialValues={{ status: "NOTSALE" }} />;
+const CustomerNewPage: IDefaultLayoutPage = () => {
+  return <CustomerForm initialValues={{}} />;
 };
 
-ProductNewPage.getLayout = getDefaultLayout;
-ProductNewPage.pageHeader = pageHeader;
+CustomerNewPage.getLayout = getDefaultLayout;
+CustomerNewPage.pageHeader = pageHeader;
 
-export default ProductNewPage;
+export default CustomerNewPage;
