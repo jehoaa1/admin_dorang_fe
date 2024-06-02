@@ -12,6 +12,7 @@ declare module "next-auth" {
       name?: string | null;
       phoneNumber?: string | null;
       profileImg?: string | null;
+      login?: string| null; // 'login' 속성 추가
     }; 
     expires: Date; // expires 속성을 Date 타입으로 변경
   }
