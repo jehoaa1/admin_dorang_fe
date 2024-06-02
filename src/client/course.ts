@@ -6,6 +6,7 @@ export interface Courses {
   id: number; 
   members_id: number;
   class_type: string;
+  class_type_txt: string;
   start_date:Date;
   end_date:Date;
   payment_amount:number;

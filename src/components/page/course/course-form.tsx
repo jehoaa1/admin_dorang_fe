@@ -83,12 +83,13 @@ const CourseForm = ({ id, initialValues }: ICourseFormProps) => {
 
           <Divider />
 
-          <FormGroup title="클레스*">
+          <FormGroup title="클래스*">
             <Form.Item name="class_type" initialValue="1">
               <Radio.Group>
-                <Radio.Button value="1">클레스 1</Radio.Button>
-                <Radio.Button value="2">클레스 2</Radio.Button>
-                <Radio.Button value="3">클레스 3</Radio.Button>
+                <Radio.Button value="1">오감</Radio.Button>
+                <Radio.Button value="2">베이지</Radio.Button>
+                <Radio.Button value="3">브레인</Radio.Button>
+                <Radio.Button value="4">테크닉</Radio.Button>
               </Radio.Group>
             </Form.Item>
           </FormGroup>

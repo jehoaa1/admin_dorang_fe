@@ -19,6 +19,7 @@ export interface ClassBooking {
     id: number;
     reservation_date: Date;
     enrollment_status: string;
+    enrollment_status_txt: string;
     course_id: number;
     course: Course;
     member: Member
@@ -27,6 +28,7 @@ export interface ClassBooking {
 interface Course {
   id: number; 
   class_type: string;
+  class_type_txt: string;
   start_date: Date;
   end_date: Date;
   payment_amount:number;

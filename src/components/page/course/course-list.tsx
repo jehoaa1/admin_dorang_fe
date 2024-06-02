@@ -35,11 +35,11 @@ const CourseList: React.FC<CourseListProps>= ({ data, delCourses }) => {
       }
     },
     {
-      title: "클레스",
+      title: "클래스",
       align: "center",
       width: 100,
       render: (_value: unknown, record: Courses) => {
-        return (<span>{record.class_type}</span>)
+        return (<span>{record.class_type_txt}</span>)
       }
     },
     {

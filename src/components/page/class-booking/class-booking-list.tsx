@@ -43,11 +43,11 @@ const ClassBookingList: React.FC<ClassBookingListProps>= ({ data, delClassBookin
       }
     },    
     {
-      title: "클레스",
+      title: "클래스",
       align: "center",
       width: 100,
       render: (_value: unknown, record: ClassBooking) => {
-        return (<span>{record.course.class_type}</span>)
+        return (<span>{record.course.class_type_txt}</span>)
       }
     },
     {
@@ -62,8 +62,9 @@ const ClassBookingList: React.FC<ClassBookingListProps>= ({ data, delClassBookin
       title: "예약상태",
       align: "center",
       width: 100,
-      render: (_value: unknown, record: ClassBooking) => {
-        return (<span>{record.enrollment_status}</span>)
+      render: (_value: unknown, record: ClassBooking) => {        
+        const fieldColor = record.enrollment_status == "3" ? "red" : "";
+        return (<span style={{ color: fieldColor }}>{record.enrollment_status_txt}</span>)
       }
     },
     {
