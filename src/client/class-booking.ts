@@ -49,7 +49,7 @@ export interface ClassBookingResponse {
 export interface IClassBooking {
   course_id: number;
   reservation_date: string;  
-  enrollment_status:number;
+  enrollment_status:string;
 }
 
 export interface UClassBooking{
@@ -94,6 +94,9 @@ export const useClassBooking = (params: ClassBookingParams = {}) => {
       
       return await res.json();
     },
+    {
+      revalidateOnMount: true, // 마운트할 때마다 데이터 재검증
+    }
   );
 };
 

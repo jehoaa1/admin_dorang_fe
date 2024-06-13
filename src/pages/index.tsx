@@ -92,7 +92,7 @@ const IndexPage: IDefaultLayoutPage = () => {
 
       <h3 className="title">달력</h3>
 
-      <CalendarForm setSelDate={setChoiceDate} classBookingList={classBooking} getCourse={getCourse}/>
+      <CalendarForm setSelDate={setChoiceDate} choiceDate={choiceDate} classBookingList={classBooking} getCourse={getCourse}/>
     </>
   );
 };

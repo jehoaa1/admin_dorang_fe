@@ -1,6 +1,7 @@
-import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
-import { Dayjs } from "dayjs";
-import React, { useCallback } from "react";
+import { Badge, BadgeProps, Calendar, CalendarProps, Modal } from "antd";
+import dayjs, { Dayjs } from "dayjs";
+import React, { useCallback, useState } from "react";
+import EasyClassBookingModal from "./easy-class-booking-modal";
 
 interface ListItem {
   date: string;
@@ -10,15 +11,19 @@ interface ListItem {
 
 interface CalendarFormProps {
   setSelDate: React.Dispatch<React.SetStateAction<Date>>;
+  choiceDate: Date;
   classBookingList: ListItem[];
   getCourse: (startDate:string, endDate:string) => void;
 }
 
 const CalendarForm: React.FC<CalendarFormProps> = ({
   setSelDate,
+  choiceDate,
   classBookingList,
   getCourse
 }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const dateCellRender = useCallback((value: Dayjs) => { 
     let key = 0;   
     return (
@@ -77,14 +82,41 @@ const CalendarForm: React.FC<CalendarFormProps> = ({
     return info.originNode;
   }, [dateCellRender]);
 
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
-    <Calendar
-      cellRender={cellRender}
-      mode="month"
-      onChange={(data) => setSelDate(data.toDate())}
-      headerRender={headerRender}
-      onPanelChange={(value)=>getCourse(value.startOf('month').format('YYYY-MM-DD'), value.endOf('month').format('YYYY-MM-DD'))}
-    />
+    <>
+      <Calendar
+        cellRender={cellRender}
+        mode="month"
+        onSelect={(data)=>{        
+          if(dayjs(choiceDate).format('YYYY-MM-DD') == data.format('YYYY-MM-DD')){
+            console.log('간편 강의 예약 창 오픈')
+            setIsModalVisible(true);
+          }else{
+            setSelDate(data.toDate())
+          }
+        }}
+        headerRender={headerRender}
+        onPanelChange={(value)=>getCourse(value.startOf('month').format('YYYY-MM-DD'), value.endOf('month').format('YYYY-MM-DD'))}
+      />
+
+      <Modal
+        title="강의 예약"
+        open={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        footer={null} // Footer를 제거하고 EasyClassBookingModal의 버튼을 사용
+      >
+        <EasyClassBookingModal selDate={choiceDate} modalClose={handleModalCancel} getCourse={getCourse}/>
+      </Modal>
+    </>
   );
 };
 
