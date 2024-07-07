@@ -22,12 +22,12 @@ const EasyClassBookingModal = ({ id, selDate, initialValues, modalClose, getCour
   const { data, error, mutate: mutateCourse  } = useCourseRemainSessionCount();  
   const hours = [];
   const minutes = [];
-  for (let hour = 0; hour <= 24; hour++) {
+  for (let hour = 9; hour <= 21; hour++) {
     hours.push(hour);
   }
 
-  for (let minute = 0; minute <= 60; minute++) {
-    minutes.push(minute);
+  for (let minute = 0; minute <= 50; minute++) {
+    if(minute % 10 == 0) minutes.push(minute);
   }
 
   const handleFinish = async (formValue: any) => {
